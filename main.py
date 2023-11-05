@@ -21,7 +21,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
 
         # Fields
         self.output_text = str()
-        # self.start_output_length = len(self.output_text)
+        self.number_of_errors = 0
         self.start_output_length = 0
         self.lang = str()
         self.percent = 0
@@ -50,6 +50,10 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.restart_button.hide()
         self.restart_button.setText("Перезапустить")
         self.restart_button.clicked.connect(self.restart)
+
+        # Errors lable
+        self.errors_lable.setText(f"Количество ошибок = {0}")
+        self.errors_lable.hide()
 
         # Choice language
         self.choice_language.addItem("eng")
@@ -83,6 +87,11 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.time_lable.setText(f"Время: -")
         self.speed_label.setText(f"Скорость печати: - сим./мин.")
 
+        # Geometry
+        # TODO
+
+        # self.setWindowState(Qt.WindowMaximized)
+
     def text_changed(self):
         '''if text changed, we check if new letter is right.
         If it is, then we delete this letter from the text in both strings.
@@ -105,12 +114,14 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
             self.right_letters += 1
         else:
             self.input_string.setText(self.input_string.text()[:-1])
+            self.number_of_errors += 1
 
         if self.output_string.text() == "":
             print("The end")
-            exit(0)
+            self.timer.stop()
         self.input_string.textChanged.connect(self.text_changed)
         self.update_progress_bar()
+        self.update_errors()
 
     def start(self):
         '''start game - generate and show new text, start timer'''
@@ -132,7 +143,12 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.lang = self.choice_language.currentText()
         # print(self.lang)
         self.start_output_length = len(self.output_string.text())
+        self.errors_lable.show()
         # self.input_string.setUpdatesEnabled(True)
+
+    def update_errors(self):
+        '''technical method'''
+        self.errors_lable.setText(f"Количество ошибок: {self.number_of_errors}")
 
     def update_time(self):
         '''technical method. He is... update time, and speed on the screen'''
@@ -213,7 +229,7 @@ def main():
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
     window = App()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
-    app.exec_()  # и запускаем приложение
+    sys.exit(app.exec_())  # и запускаем приложение
 
 
 if __name__ == '__main__':
