@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'skelet.ui'
+# Form implementation generated from reading ui file '../skelet.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1225, 575)
+        MainWindow.resize(1264, 619)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pause_button = QtWidgets.QPushButton(self.centralwidget)
@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
         self.speed_label.setObjectName("speed_label")
         self.verticalLayout_2.addWidget(self.speed_label)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(520, 350, 311, 181))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(400, 350, 431, 181))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -89,9 +89,12 @@ class Ui_MainWindow(object):
         self.other_check = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
         self.other_check.setObjectName("other_check")
         self.verticalLayout_3.addWidget(self.other_check)
+        self.errors_lable = QtWidgets.QLabel(self.centralwidget)
+        self.errors_lable.setGeometry(QtCore.QRect(870, 280, 371, 181))
+        self.errors_lable.setObjectName("errors_lable")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1225, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1264, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -111,6 +114,7 @@ class Ui_MainWindow(object):
         self.digits_check.setText(_translate("MainWindow", "Включить цифры"))
         self.capital_check.setText(_translate("MainWindow", "Включить заглавные"))
         self.other_check.setText(_translate("MainWindow", "Включить другие символы"))
+        self.errors_lable.setText(_translate("MainWindow", "TextLabel"))
 
 
 if __name__ == "__main__":
