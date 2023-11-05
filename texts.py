@@ -30,7 +30,7 @@ class Text(object):
         self.number_of_symbols = 0
 
         if digits_e:
-            self._digits_col = random.randint(0, int(self.length / 10))
+            self._digits_col = random.randint(1, int(self.length / 10 + 10))
 
         if other_e:
             self._other_col = random.randint(0, int(self.length / 15))

@@ -100,7 +100,8 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
 
         '''
         if self.output_string.text() == "":
-            return
+            self.progress_bar.setValue(100)
+
         if self.input_string.text() == "":
             return
         # print(self.output_string.text(), "aboba", self.input_string.text())
@@ -119,6 +120,10 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         if self.output_string.text() == "":
             print("The end")
             self.timer.stop()
+            self.input_string.setText("")
+            self.input_string.setReadOnly(True)
+            self.progress_bar.setValue(100)
+
         self.input_string.textChanged.connect(self.text_changed)
         self.update_progress_bar()
         self.update_errors()
@@ -129,7 +134,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
 
         self.text = texts.Text(3, 15,
                                self.is_capital_in_text, self.is_digits_in_text, self.is_other_in_text)
-        print(self.text)
+        # print(self.text)
         # text = "qwer gkIDk 1234 fkldi Lqwer gkIDk 1234 fkldi L"
         self.output_text = str(self.text)
         # self.start_output_length = self.text.number_of_symbols
@@ -176,12 +181,12 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.input_string.setText("")
         self.right_letters = 0
         self.percent = 0
+        self.number_of_errors = 0
         self.time = 0
         self.timer.start()
         text = texts.Text(3, 15,
                           self.is_capital_in_text, self.is_digits_in_text, self.is_other_in_text)
         self.output_text = str(text)
-
         self.output_string.setText(self.output_text[:25])
 
         self.pause_button.setText("Пауза")
@@ -191,6 +196,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.choice_language.hide()
         self.lang = self.choice_language.currentText()
         self.update_progress_bar()
+        self.update_errors()
 
     def cont(self):  # Continue typing
         '''continue game: continue timer, allow to type'''
