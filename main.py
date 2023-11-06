@@ -121,12 +121,19 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
             print("The end")
             self.timer.stop()
             self.input_string.setText("")
+            self.save_data()
             self.input_string.setReadOnly(True)
             self.progress_bar.setValue(100)
 
         self.input_string.textChanged.connect(self.text_changed)
         self.update_progress_bar()
         self.update_errors()
+
+    def save_data(self):
+        with open("statistics.txt", 'r+', encoding='utf-8') as file:
+            file.seek(0, 2)
+            file.write(
+                f"Пользователь набрал текст длиной {self.right_letters} символов за {self.time} секунд, совершив всего лишь {self.number_of_errors} ошибок\n")
 
     def start(self):
         '''start game - generate and show new text, start timer'''
