@@ -1,19 +1,33 @@
 import random
 from english_words import english_words_set
 
-list_of_words = list(english_words_set)
 
-# list_of_words = ['мама', 'папа']
-length_of_dict = len(list_of_words)
-lst_of_words = []
+class Singleton(object):
+    _instance = None
 
-for i in list_of_words:
-    lst_of_words.append(i.lower())
+    def __new__(class_, *args, **kwargs):
+        if not isinstance(class_._instance, class_):
+            class_._instance = object.__new__(class_, *args, **kwargs)
+        return class_._instance
 
-cap_list_w = []
-for i in list_of_words:
-    cap_list_w.append(i.capitalize())
-    cap_list_w.append(i)
+
+class SingletonText(Singleton):
+    def __init__(self):
+
+        self.list_of_words = list(english_words_set)
+
+        self.length_of_dict = len(self.list_of_words)
+        self.lst_of_words = []
+
+        for i in self.list_of_words:
+            self.lst_of_words.append(i.lower())
+
+        self.cap_list_w = []
+        for i in self.list_of_words:
+            self.cap_list_w.append(i.capitalize())
+            self.cap_list_w.append(i)
+
+
 '''
 object with generated text
 '''
@@ -36,9 +50,11 @@ class Text(object):
             self._other_col = random.randint(0, int(self.length / 15))
 
         # add words in list
-        self.tmp_list = lst_of_words
+        base = SingletonText()
+
+        self.tmp_list = base.lst_of_words
         if capital_e:
-            self.tmp_list = cap_list_w
+            self.tmp_list = base.cap_list_w
 
         if self._digits_col:
             for _ in range(self._digits_col):
