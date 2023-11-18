@@ -56,9 +56,10 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.errors_lable.hide()
 
         # Choice language
-        self.choice_language.addItem("eng")
-        self.choice_language.addItem("rus")
+        # self.choice_language.addItem("eng")
+        # self.choice_language.addItem("rus")
         # self.choice_language.activated.connect(self.start)
+        self.choice_language.hide()
 
         # Button_start
         self.pause_button.setText("Поехали!")
@@ -111,7 +112,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
             self.output_string.setText(self.output_text[:min(len(self.output_text), 25)])
             if self.input_string.text()[-1] == ' ':
                 self.input_string.setText("")
-            self.percent += 1 / (self.text.number_of_symbols) * 100
+            self.percent += 100 / (self.text.number_of_symbols)
             self.right_letters += 1
         else:
             self.input_string.setText(self.input_string.text()[:-1])
@@ -126,7 +127,8 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
             self.progress_bar.setValue(100)
 
         self.input_string.textChanged.connect(self.text_changed)
-        self.update_progress_bar()
+        if (self.progress_bar.value() != 100):
+            self.update_progress_bar()
         self.update_errors()
 
     def save_data(self):
@@ -195,6 +197,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
                           self.is_capital_in_text, self.is_digits_in_text, self.is_other_in_text)
         self.output_text = str(text)
         self.output_string.setText(self.output_text[:25])
+        self.text.number_of_symbols = len(self.output_text)
 
         self.pause_button.setText("Пауза")
         self.pause_button.disconnect()
@@ -207,11 +210,17 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
 
     def cont(self):  # Continue typing
         '''continue game: continue timer, allow to type'''
-        self.pause_button.setText("Пауза")
-        self.pause_button.disconnect()
-        self.pause_button.clicked.connect(self.pause)
-        self.timer.start()
-        self.input_string.setReadOnly(False)
+
+        if (self.output_string.text() != ""):
+            self.pause_button.setText("Пауза")
+            self.pause_button.disconnect()
+            self.pause_button.clicked.connect(self.pause)
+            self.timer.start()
+            self.input_string.setReadOnly(False)
+        else:
+            self.pause_button.setText("Пауза")
+            self.pause_button.disconnect()
+            self.pause_button.clicked.connect(self.pause)
 
     def update_digits(self):
         '''technical method. Life is life
