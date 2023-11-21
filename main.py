@@ -26,6 +26,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.lang = str()
         self.percent = 0
         self.right_letters = 0
+        self.text = None
 
         # Set Title
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
@@ -115,7 +116,7 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
             self.percent += 100 / (self.text.number_of_symbols)
             self.right_letters += 1
         else:
-            self.input_string.setText(self.input_string.text()[:-1])
+            self.input_string.setText(str(self.input_string.text()[:-1]))
             self.number_of_errors += 1
 
         if self.output_string.text() == "":
@@ -132,10 +133,16 @@ class App(QtWidgets.QMainWindow, skelet.Ui_MainWindow):
         self.update_errors()
 
     def save_data(self):
-        with open("statistics.txt", 'r+', encoding='utf-8') as file:
-            file.seek(0, 2)
-            file.write(
-                f"Пользователь набрал текст длиной {self.right_letters} символов за {self.time} секунд, совершив всего лишь {self.number_of_errors} ошибок\n")
+        try:
+            with open("statistics.txt", 'r+', encoding='utf-8') as file:
+                file.seek(0, 2)
+                file.write(
+                    f"Пользователь набрал текст длиной {self.right_letters} символов за {self.time} секунд, совершив всего лишь {self.number_of_errors} ошибок\n")
+        except FileNotFoundError:
+            with open("statistics.txt", 'w+', encoding='utf-8') as file:
+                file.seek(0, 2)
+                file.write(
+                    f"Пользователь набрал текст длиной {self.right_letters} символов за {self.time} секунд, совершив всего лишь {self.number_of_errors} ошибок\n")
 
     def start(self):
         '''start game - generate and show new text, start timer'''
